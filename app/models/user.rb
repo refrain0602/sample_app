@@ -1,7 +1,12 @@
 # セキュアパスワードの適用
 class User < ActiveRecord::Base
 	has_secure_password
+	
+	# 保存前処理
 	before_save { self.email = email.downcase }
+	
+	# 行作成前処理
+	before_create :create_remember_token
 
 	# name 必須チェック MAX 50文字
 	validates :name \
@@ -19,4 +24,19 @@ class User < ActiveRecord::Base
 	# パスワード検証
 	validates :password \
 		,length: { minimum: 6 }
+	
+
+	def User.new_remember_token
+		SecureRandom.urlsafe_base64
+	end
+
+	def User.encrypt(token)
+		Digest::SHA1.hexdigest(token.to_s)
+	end
+
+		private
+
+		def create_remember_token
+			self.remember_token = User.encrypt(User.new_remember_token)
+		end
 end
