@@ -26,7 +26,8 @@ describe "AuthenticationPages" do
 			before { click_button "Sign in" }
 		
 			it { should have_title('Sign in') }
-			it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+#			it { should have_selector('div.alert.alert-error', text: 'Invalid') }
+			it { should have_error_message('Invalid') }
 			
 			describe "after visiting another page" do
 				before { click_link "Home" }
@@ -41,14 +42,16 @@ describe "AuthenticationPages" do
 			
 			let(:user) { FactoryGirl.create(:user) }
 			
-			before do
+			before { valid_signin(user) }
 			
-				fill_in "Email"		,with: user.email.upcase
-				fill_in "Password"	,with: user.password
-				
-				click_button "Sign in"
-			
-			end
+#			before do
+#			
+#				fill_in "Email"		,with: user.email.upcase
+#				fill_in "Password"	,with: user.password
+#				
+#				click_button "Sign in"
+#			
+#			end
 			
 			it { should have_title( user.name ) }
 			
@@ -58,6 +61,13 @@ describe "AuthenticationPages" do
 			
 			it { should_not have_link('Sign in', href: signin_path ) }
 		
+		
+			describe "followd by signout" do
+				before { click_link "Sign out" }
+				
+				it { should have_link('Sign in') }
+			
+			end
 		end
 	end
 end

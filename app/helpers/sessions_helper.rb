@@ -43,4 +43,13 @@ module SessionsHelper
 	
 	end
 
+
+	def sign_out
+		# ログインユーザ情報のクリア
+		self.current_user = nil
+		
+		# クッキーからログイントークンを消す
+		cookies.delete( :remember_token )
+	
+	end
 end

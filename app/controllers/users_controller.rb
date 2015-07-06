@@ -16,6 +16,9 @@ class UsersController < ApplicationController
   	@user = User.new( user_params )
   	
   	if @user.save
+  		# ログイン処理を行う
+  		sign_in @user
+  		
   		# 保存成功時の処理
   		flash[:success] = "Welcome to the Sample App!"
   		

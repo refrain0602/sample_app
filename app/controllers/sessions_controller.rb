@@ -12,14 +12,14 @@ class SessionsController < ApplicationController
 		if		user \
 			&&	user.authenticate( params[:session][:password] )
 			
-			# ƒ†[ƒU‚ðƒTƒCƒ“ƒCƒ“‚³‚¹Aƒ†[ƒUƒy[ƒW(show)‚ÉƒŠƒ_ƒCƒŒƒNƒg‚·‚é
+			# ãƒ¦ãƒ¼ã‚¶ã‚’ã‚µã‚¤ãƒ³ã‚¤ãƒ³ã•ã›ã€ãƒ¦ãƒ¼ã‚¶ãƒšãƒ¼ã‚¸(show)ã«ãƒªãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã™ã‚‹
 			sign_in user
 			
 			redirect_to user
 	
 		else
 		
-			# ƒGƒ‰[ƒƒbƒZ[ƒW‚ð•\Ž¦‚µAƒTƒCƒ“ƒCƒ“ƒtƒH[ƒ€‚ðÄ•`‰æ‚·‚é
+			# ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ã€ã‚µã‚¤ãƒ³ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚’å†æç”»ã™ã‚‹
 			flash.now[:error] = 'Invalid email/password conbination'
 			
 			render 'new'
@@ -29,7 +29,10 @@ class SessionsController < ApplicationController
 	
 	
 	def destroy
-	
+		# ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã—ã¦ãƒˆãƒƒãƒ—ãƒšãƒ¼ã‚¸ã«é·ç§»
+		sign_out
+		
+		redirect_to root_url
 	end
 
 end
