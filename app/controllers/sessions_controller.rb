@@ -36,7 +36,8 @@ class SessionsController < ApplicationController
 		
 			sign_in user
 			
-			redirect_to user
+			# 通常のリダイレクトではなくフレンドリーフォーワードを行う
+			redirect_back_or user
 		
 		else
 		

@@ -59,9 +59,15 @@ class UsersController < ApplicationController
   end
   
 	def destroy
-		User.find(params[:id]).destroy
-		flash[:success] = "User destroyed."
-		redirect_to users_url
+		user = User.find(params[:id])
+		
+		if current_user? user
+			redirect_to( root_path )
+		else
+			user.destroy
+			flash[:success] = "User destroyed."
+			redirect_to users_url
+		end
 	end
   
 	# 内部処理群
@@ -74,7 +80,9 @@ class UsersController < ApplicationController
 		# Before actions
 		
 		def signed_in_user
-		
+			# フレンドリーフォワーディング用に保持
+			store_location
+			
 			redirect_to signin_url, notice: "Please sign in." unless signed_in?
 		
 		end
