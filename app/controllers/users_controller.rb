@@ -10,6 +10,8 @@ class UsersController < ApplicationController
   def show
   
   	@user = User.find( params[:id] )
+  	
+  	@microposts = @user.microposts.paginate( page: params[:page] )
   
   end
   
@@ -79,13 +81,13 @@ class UsersController < ApplicationController
 		
 		# Before actions
 		
-		def signed_in_user
-			# フレンドリーフォワーディング用に保持
-			store_location
-			
-			redirect_to signin_url, notice: "Please sign in." unless signed_in?
-		
-		end
+#		def signed_in_user
+#			# フレンドリーフォワーディング用に保持
+#			store_location
+#			
+#			redirect_to signin_url, notice: "Please sign in." unless signed_in?
+#		
+#		end
 
 		def correct_user
 			@user = User.find(params[:id])

@@ -1,27 +1,28 @@
-# ƒZƒLƒ…ƒAƒpƒXƒ[ƒh‚Ì“K—p
+# ã‚»ã‚­ãƒ¥ã‚¢ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®é©ç”¨
 class User < ActiveRecord::Base
+	has_many :microposts, dependent: :destroy
 	has_secure_password
 	
-	# •Û‘¶‘Oˆ—
+	# ä¿å­˜å‰å‡¦ç†
 	before_save { self.email = email.downcase }
 	
-	# sì¬‘Oˆ—
+	# è¡Œä½œæˆå‰å‡¦ç†
 	before_create :create_remember_token
 
-	# name •K{ƒ`ƒFƒbƒN MAX 50•¶Žš
+	# name å¿…é ˆãƒã‚§ãƒƒã‚¯ MAX 50æ–‡å­—
 	validates :name \
 		,presence: true \
 		,length: { maximum: 50 }
 
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+(\.[a-z]+)+*\.[a-z]+\z/i
 
-	# email•K{ƒ`ƒFƒbƒN
+	# emailå¿…é ˆãƒã‚§ãƒƒã‚¯
 	validates :email \
 		,presence: true \
 		,format: { with: VALID_EMAIL_REGEX } \
 		,uniqueness: { case_sensitive: false }
 	
-	# ƒpƒXƒ[ƒhŒŸØ
+	# ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰æ¤œè¨¼
 	validates :password \
 		,length: { minimum: 6 }
 	
@@ -32,6 +33,11 @@ class User < ActiveRecord::Base
 
 	def User.encrypt(token)
 		Digest::SHA1.hexdigest(token.to_s)
+	end
+
+	def feed
+	
+		Micropost.where( "user_id = ?", id )
 	end
 
 		private
